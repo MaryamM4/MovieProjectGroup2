@@ -151,6 +151,8 @@ std::string Movie::str() const {
 }
 
 bool Movie::equal(Movie *lMovie, Movie *rMovie) {
+  // return (lMovie->str() == rMovie->str());
+
   CompareMoviePtrs cmp;
 
   if (cmp(lMovie, rMovie) || cmp(rMovie, lMovie)) {

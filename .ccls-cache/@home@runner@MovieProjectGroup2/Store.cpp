@@ -1,5 +1,9 @@
 #include "Store.h"
 
+#include "ClassicMovie.h"
+#include "ComedyMovie.h"
+#include "DramaMovie.h"
+
 bool Store::buildFromFiles(const std::string &customerFilename,
                            const std::string &movieFilename,
                            const std::string &commandsFilename) {
@@ -19,7 +23,7 @@ bool Store::buildFromFiles(const std::string &customerFilename,
 
   std::string currCommand;
   while (std::getline(commandsFile, currCommand)) {
-    std::cout << "Command: " << currCommand << std::endl; // Delete me
+    // std::cout << "Command: " << currCommand << std::endl; // Delete me
     executeCommand(currCommand);
   }
 
@@ -56,23 +60,31 @@ bool Store::executeCommand(const std::string &command) {
           return true;
 
         } else {
-          std::ostringstream oss;
-          Movie *movie = returnEquivelent(Movie::createMovie(oss.str()));
+          char mediaType;
+          iss >> mediaType;
+
+          std::string movieInfo;
+          std::getline(iss >> std::ws, movieInfo);
+          Movie *movie = returnEquivelent(movieInfo);
 
           if (movie == nullptr) {
-            std::cout << "Cannot borrow/return a movie that DNE in the store.\n"
-                      << std::endl;
+            // std::cout << "Cannot borrow/return a movie that DNE in the
+            // store.\n"        << std::endl;
             return false;
           }
 
           if (commandType == 'B') { // Borrow
             if (borrowMovie(customer, movie)) {
+              // std::cout << "Sucessfully borrowed movie." << std::endl; //
+              // DELETE
               return true;
             }
             std::cout << "Failed to borrow movie." << std::endl;
 
           } else if (commandType == 'R') { // Return
             if (returnMovie(customer, movie)) {
+              // std::cout << "Sucessfully returned movie." << std::endl; //
+              // DELETE
               return true;
             }
 
@@ -139,6 +151,65 @@ Movie *Store::returnEquivelent(Movie *movieToFind) {
   for (Movie *movie : movies) {
     if (Movie::equal(movie, movieToFind)) {
       return movie;
+    }
+  }
+
+  return nullptr;
+}
+
+Movie *Store::returnEquivelent(std::string movieInfo) {
+  // First seperate into movie info
+  char genre;
+  std::string title = "";
+  std::string name = "";
+  int year = 0;
+
+  std::istringstream iss(movieInfo);
+
+  iss >> genre;
+
+  switch (genre) {
+  case 'C':
+    iss >> year >> std::ws;
+    std::getline(iss, name);
+    break;
+
+  case 'F':
+    std::getline(iss, title, ',');
+    iss >> year;
+    break;
+
+  case 'D':
+    std::getline(iss, name, ',');
+    std::getline(iss, title);
+    break;
+
+  default: // Invalid tag
+    return nullptr;
+  }
+
+  // Now find if matching movie exists
+  for (Movie *movie : movies) {
+    if (movie->getGenreTag() == genre) {
+      if (movie->title == title) {
+        if (genre == 'F') {
+          if (dynamic_cast<ComedyMovie *>(movie)->year == year) {
+            return movie;
+          }
+
+        } else if (genre == 'C') { // Classic
+          ClassicMovie *classic = dynamic_cast<ClassicMovie *>(movie);
+
+          if (classic->majorActor == name && classic->year == year) {
+            return movie;
+          }
+
+        } else if (genre == 'D') {
+          if (dynamic_cast<DramaMovie *>(movie)->director == name) {
+            return movie;
+          }
+        }
+      }
     }
   }
 

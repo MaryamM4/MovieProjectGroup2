@@ -31,6 +31,7 @@ private:
   std::vector<Movie *> movies;
 
   Movie *returnEquivelent(Movie *movieToFind);
+  Movie *returnEquivelent(std::string movieInfo);
 };
 
 #endif // STORE_H

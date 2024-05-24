@@ -56,23 +56,21 @@ bool Customer::returnMovie(Movie *movie) {
 
 // Display methods
 void Customer::displayHistory() {
-  std::cout << "Borrowing History of " << lastName << ", " << firstName << ":"
-            << std::endl;
-
+  std::cout << "Borrowing History of " << lastName << ", " << firstName << ": ";
   std::cout << "(" << history.size() << " total)\n" << std::endl;
 
   for (borrowedMovie *bMovie : history) {
-    std::string oStr = "";
+    std::string oStr = "(Prev. Borrowed) ";
 
     if (bMovie->isBorrowing) {
-      oStr += "(Currently Borrowing) ";
+      oStr = "(Cur. Borrowing) ";
     }
 
-    oStr += bMovie->movie->str();
+    oStr += bMovie->movie->title;
     std::cout << oStr << "\n" << std::endl;
   }
 
-  std::cout << std::endl;
+  std::cout << "---------------\n" << std::endl;
 }
 
 std::ostream &operator<<(std::ostream &os, const Customer &customer) {
