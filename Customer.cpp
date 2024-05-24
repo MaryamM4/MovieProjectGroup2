@@ -7,7 +7,7 @@
 
 bool Customer::isBorrowing(Movie *movie) {
   for (borrowedMovie *bMovie : history) {
-    if (movie == bMovie->movie) {
+    if (Movie::equal(movie, bMovie->movie)) {
       return true;
     }
   }
@@ -16,45 +16,50 @@ bool Customer::isBorrowing(Movie *movie) {
 }
 
 bool Customer::borrowMovie(Movie *movie) {
-  for (borrowedMovie *bMovie : history) {
-    if (movie == bMovie->movie) {
+  // Don't create duplicate snapshots
+  borrowedMovie *bMovie = getBorrow(movie);
+  if (bMovie != nullptr) {
+    if (bMovie->isBorrowing == true) {
+      std::cout << "Customer is already borrowing the Movie." << std::endl;
+      return false;
 
-      if (bMovie->isBorrowing == true) {
-        std::cout << "Customer is already borrowing the Movie." << std::endl;
-        return false;
-
-      } else {
-        bMovie->isBorrowing = true;
-        return true;
-      }
+    } else {
+      bMovie->isBorrowing = true;
+      return true;
     }
   }
 
-  return false;
+  // If snapshot DNE, then create one
+  borrowedMovie *newBorrow = new borrowedMovie(movie);
+  history.push_back(newBorrow);
+
+  return true;
 }
 
 bool Customer::returnMovie(Movie *movie) {
-  for (borrowedMovie *bMovie : history) {
-    if (movie == bMovie->movie) {
+  borrowedMovie *bMovie = getBorrow(movie);
 
-      if (bMovie->isBorrowing == true) {
-        bMovie->isBorrowing = false;
-        return true;
+  if (bMovie != nullptr) {
+    if (bMovie->isBorrowing == true) {
+      bMovie->isBorrowing = false;
+      return true;
 
-      } else {
-        std::cout << "Customer already returned Movie.\n" << std::endl;
-        return false;
-      }
+    } else {
+      std::cout << "Customer already returned Movie.\n" << std::endl;
+      return false;
     }
   }
 
+  std::cout << "Customer cannot return a never-borrowed movie.\n" << std::endl;
   return false;
 }
 
 // Display methods
 void Customer::displayHistory() {
-  std::cout << "Borrwing History of " << lastName << ", " << firstName << ":\n"
+  std::cout << "Borrowing History of " << lastName << ", " << firstName << ":"
             << std::endl;
+
+  std::cout << "(" << history.size() << " total)\n" << std::endl;
 
   for (borrowedMovie *bMovie : history) {
     std::string oStr = "";
@@ -78,6 +83,17 @@ std::ostream &operator<<(std::ostream &os, const Customer &customer) {
 
   os << customer.firstName << std::string(" ") << customer.lastName;
   return os;
+}
+
+// Helper method. Returns nullptr if movie never borrowed.
+borrowedMovie *Customer::getBorrow(Movie *movie) {
+  for (borrowedMovie *bMovie : history) {
+    if (Movie::equal(movie, bMovie->movie)) {
+      return bMovie;
+    }
+  }
+
+  return nullptr;
 }
 
 // Factory method

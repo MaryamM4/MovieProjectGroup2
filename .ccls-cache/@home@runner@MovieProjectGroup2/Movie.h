@@ -36,6 +36,8 @@ public:
   static std::vector<Movie *> build(const std::string &movieFilename);
   static Movie *createMovie(const std::string &fileline);
 
+  static bool equal(Movie *lMovie, Movie* rMovie);
+
 protected:
   int availableStock;
 };

@@ -19,6 +19,7 @@ bool Store::buildFromFiles(const std::string &customerFilename,
 
   std::string currCommand;
   while (std::getline(commandsFile, currCommand)) {
+    std::cout << "Command: " << currCommand << std::endl; // Delete me
     executeCommand(currCommand);
   }
 
@@ -51,7 +52,7 @@ bool Store::executeCommand(const std::string &command) {
         }
 
         if (commandType == 'H') { // Display customer history
-          customer->displayHistory();
+          displayCustomerHistory(customer);
           return true;
 
         } else {
@@ -65,10 +66,17 @@ bool Store::executeCommand(const std::string &command) {
           }
 
           if (commandType == 'B') { // Borrow
-            return borrowMovie(customer, movie);
+            if (borrowMovie(customer, movie)) {
+              return true;
+            }
+            std::cout << "Failed to borrow movie." << std::endl;
 
           } else if (commandType == 'R') { // Return
-            return returnMovie(customer, movie);
+            if (returnMovie(customer, movie)) {
+              return true;
+            }
+
+            std::cout << "Failed to return movie." << std::endl;
           }
         }
       }
@@ -96,9 +104,6 @@ void Store::displayCustomerHistory(Customer *customer) {
 }
 
 bool Store::borrowMovie(Customer *customer, Movie *movie) {
-  if (!contains(customer)) {
-    return false;
-  }
 
   if (movie->borrowMovie(movie)) {
     return customer->borrowMovie(movie);
@@ -111,10 +116,6 @@ bool Store::borrowMovie(Customer *customer, Movie *movie) {
 }
 
 bool Store::returnMovie(Customer *customer, Movie *movie) {
-  if (!contains(customer)) {
-    return false;
-  }
-
   if (movie->returnMovie(movie)) {
     return customer->returnMovie(movie);
   }
@@ -135,10 +136,8 @@ bool Store::contains(Customer *customer) {
 }
 
 Movie *Store::returnEquivelent(Movie *movieToFind) {
-  CompareMoviePtrs cmp;
-
   for (Movie *movie : movies) {
-    if (!(cmp(movie, movieToFind)) && !(cmp(movieToFind, movie))) {
+    if (Movie::equal(movie, movieToFind)) {
       return movie;
     }
   }

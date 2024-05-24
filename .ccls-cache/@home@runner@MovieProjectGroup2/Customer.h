@@ -10,7 +10,9 @@
 
 // This struct is used for history and for borrwing.
 typedef struct borrowedMovie {
-  Movie *movie;
+  borrowedMovie(Movie *movie) : movie(movie){};
+
+  Movie *movie = nullptr;
   bool isBorrowing = true;
 } borrowedMovie;
 
@@ -41,6 +43,9 @@ public:
 
 private:
   std::vector<borrowedMovie *> history;
+
+  // Helper method
+  borrowedMovie *getBorrow(Movie *movie); // returns nullptr if DNE.
 };
 
 #endif // CUSTOMER_H

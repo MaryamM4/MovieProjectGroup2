@@ -70,24 +70,23 @@ Movie *Movie::createMovie(const std::string &fileLine) {
   std::string director, title;
   int year;
 
-  // comedy tag
-  if (genre == 'F') {
+  if (genre == 'F') { // Comedy tag
     ss >> stock;
     ss.ignore(1, ',');
     std::getline(ss, director, ',');
     std::getline(ss, title, ',');
     ss >> year;
     return new ComedyMovie(stock, director, title, year);
-    // drama tag
-  } else if (genre == 'D') {
+
+  } else if (genre == 'D') { // Drama tag
     ss >> stock;
     ss.ignore(1, ',');
     std::getline(ss, director, ',');
     std::getline(ss, title, ',');
     ss >> year;
     return new DramaMovie(stock, director, title, year);
-    // classic tag
-  } else if (genre == 'C') {
+
+  } else if (genre == 'C') { // Classic tag
     ss >> stock;
     ss.ignore(1, ',');
     std::getline(ss, director, ',');
@@ -96,9 +95,10 @@ Movie *Movie::createMovie(const std::string &fileLine) {
     int month;
     ss >> actor >> month >> year;
     return new ClassicMovie(stock, director, title, month, year, actor);
-    // alternative tag
-  } else {
-    std::cerr << "Error: Invalid movie genre code " << genre << std::endl;
+
+  } else { // Invalid tag
+    std::cerr << "Error: Invalid movie genre code '" << genre << "'."
+              << std::endl;
     return nullptr;
   }
 }
@@ -148,4 +148,14 @@ std::string Movie::str() const {
       ".\nAvailable stock: " + std::to_string(availableStock) + ".";
 
   return fullStr;
+}
+
+bool Movie::equal(Movie *lMovie, Movie *rMovie) {
+  CompareMoviePtrs cmp;
+
+  if (cmp(lMovie, rMovie) || cmp(rMovie, lMovie)) {
+    return false;
+  }
+
+  return true;
 }
