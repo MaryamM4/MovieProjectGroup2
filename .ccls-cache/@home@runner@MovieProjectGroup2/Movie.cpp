@@ -71,36 +71,46 @@ Movie *Movie::createMovie(const std::string &fileLine) {
   int year;
 
   if (genre == 'F') { // Comedy tag
-    ss >> stock;
-    ss.ignore(1, ',');
-    std::getline(ss, director, ',');
-    std::getline(ss, title, ',');
-    ss >> year;
-    return new ComedyMovie(stock, director, title, year);
+    if (ss >> stock) {
+      ss.ignore(1, ',');
+      std::getline(ss, director, ',');
+      std::getline(ss, title, ',');
+
+      if (ss >> year) {
+        return new ComedyMovie(stock, director, title, year);
+      }
+    }
 
   } else if (genre == 'D') { // Drama tag
-    ss >> stock;
-    ss.ignore(1, ',');
-    std::getline(ss, director, ',');
-    std::getline(ss, title, ',');
-    ss >> year;
-    return new DramaMovie(stock, director, title, year);
+    if (ss >> stock) {
+      ss.ignore(1, ',');
+      std::getline(ss, director, ',');
+      std::getline(ss, title, ',');
+
+      if (ss >> year) {
+        return new DramaMovie(stock, director, title, year);
+      }
+    }
 
   } else if (genre == 'C') { // Classic tag
-    ss >> stock;
-    ss.ignore(1, ',');
-    std::getline(ss, director, ',');
-    std::getline(ss, title, ',');
-    std::string actor;
-    int month;
-    ss >> actor >> month >> year;
-    return new ClassicMovie(stock, director, title, month, year, actor);
+    if (ss >> stock) {
+      ss.ignore(1, ',');
+      std::getline(ss, director, ',');
+      std::getline(ss, title, ',');
+      std::string actor;
+      int month;
+
+      if (ss >> actor >> month >> year) {
+        return new ClassicMovie(stock, director, title, month, year, actor);
+      }
+    }
 
   } else { // Invalid tag
     std::cerr << "Error: Invalid movie genre code '" << genre << "'."
               << std::endl;
-    return nullptr;
   }
+
+  return nullptr;
 }
 
 // get available stock of the movie

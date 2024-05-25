@@ -9,21 +9,14 @@ Complete all questions with "Q:"
 
 Q: Does the program compile and run to completion: Yes/No
 
-- If the program does not compile or gives a segmentation error when run, 
-the maximum possible grade is 50%. No need to continue with the rest of self-evaluation
+  Yes.
 
-Q: All public functions have been implemented: ENTER_NUMBER
+Q: All public functions have been implemented: 7/7
 
-- -2 for each functionality not implemented
-
-For each command, state Full, Partial or None to indicate 
-if it has been fully, partially or not implemented at all.
-Explain any partial implementations.
-
-Inventory: TODO(student)
-History: TODO(student)
-Borrow: TODO(student)
-Return: TODO(student)
+Inventory: Full
+History: Full
+Borrow: Full
+Return: Full
 
 
 Q: -1 for each compilation warning, min -3: ENTER_NUMBER
@@ -54,45 +47,46 @@ Q: Do the tests sufficiently test the code: ENTER_NUMBER
 
 Q: Are all functions in .h and .cpp file documents (min -3): ENTER_NUMBER
 
-- -1 for each function not documented
+ Each function is commented. 
 
 ## Location of error message or functionality
 
 State the file and function where the information can be found
 
-invalid command code: TODO(student)
+invalid command code: Store.cpp (executeCommand)
 
-invalid movie type: TODO(student)
+invalid movie type: Movie.cpp (createMovie)
 
-invalid customer ID: TODO(student)
+invalid customer ID: Store.cpp (executeCommand), HashTable (build)
  
-invalid movie: TODO(student)
+invalid movie: Movie.cpp (createMovie), Store.cpp (executeCommand)
 
-factory classes: TODO(student)
+factory classes: Movie.cpp (createMovie), HashTable.cpp (build)
 
-hashtable: TODO(student) (explain what the hashtable is used for)
+hashtable: HashTable.cpp, Store.customers. HashTable was used for storing customers.
 
-container used for comedy movies: TODO(student)
+container used for comedy movies: Movies* vector
 
-function for sorting comedy movies: TODO(student)
+function for sorting comedy movies: Movies* vector
 
-function where comedy movies are sorted: TODO(student)
+function where comedy movies are sorted: Movie.cpp (build), Store.cpp (returnEquivelent) Movies* vector
 
-functions called when retrieving a comedy movie based on title and year: TODO(student)
+functions called when retrieving a comedy movie based on title and year: Store.cpp (executeCommand, returnEquivelent)
 
-functions called for retrieving and printing customer history: TODO(student)
+functions called for retrieving and printing customer history: Store.cpp (displayCustomerHistory), Customer.cpp (displayBorrowingHistory)
 
-container used for customer history: TODO(student)
+container used for customer history: Customer.cpp (vector<borrowedMovie*>)
 
-functions called when borrowing a movie: TODO(student)
+functions called when borrowing a movie: Store.cpp (borrowMovie), Customer.cpp (borrowMovie), Movie.cpp (borrow)
 
-explain borrowing a movie that does not exist: TODO(student)
+explain borrowing a movie that does not exist: Store.cpp first check it's inventory to see if the file exists. At the point, it will abort before attempting to borrow. 
 
-explain borrowing a movie that has 0 stock: TODO(student)
+explain borrowing a movie that has 0 stock: The Store checks inventory, returns true. Then it call's Movie's borrow function, which will return false because there not enough stock. At that pint Store will abort before calling the Customer's borrow function. 
 
-explain returning a movie that customer has not checked out: TODO(student)
+explain returning a movie that customer has not checked out: Store retrieves the Customer, then goes through their borrowing history. If the history does not contain the movie, it prints an error message. 
 
-any static_cast or dynamic_cast used: TODO(student)
+any static_cast or dynamic_cast used: Yes, for the Movies build and equal method. 
 
 
 Q: Total points: ADD_ALL_POINTS (max 25)
+;) 100 / 25
