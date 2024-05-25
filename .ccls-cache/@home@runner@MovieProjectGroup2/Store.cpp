@@ -4,6 +4,13 @@
 #include "ComedyMovie.h"
 #include "DramaMovie.h"
 
+Store::~Store() {
+    for (Movie *movie : movies) {
+        delete movie;  
+    }
+    movies.clear();   
+}
+
 bool Store::buildFromFiles(const std::string &customerFilename,
                            const std::string &movieFilename,
                            const std::string &commandsFilename) {

@@ -8,6 +8,7 @@
 
 class Store {
 public:
+  ~Store(); 
   bool buildFromFiles(const std::string &customerFilename,
                       const std::string &movieFilename,
                       const std::string &commandsFilename);
@@ -34,4 +35,4 @@ private:
   Movie *returnEquivelent(std::string movieInfo);
 };
 
-#endif // STORE_H
+#endif 

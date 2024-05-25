@@ -5,13 +5,20 @@
 #include <sstream>
 #include <vector>
 
+Customer::~Customer() {
+    for (borrowedMovie *CustMovie : history) {
+        delete CustMovie;
+    }
+    history.clear(); 
+}
+
+
 bool Customer::isBorrowing(Movie *movie) {
   for (borrowedMovie *bMovie : history) {
     if (Movie::equal(movie, bMovie->movie)) {
       return true;
     }
   }
-
   return false;
 }
 

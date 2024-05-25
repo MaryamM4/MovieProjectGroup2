@@ -19,7 +19,7 @@ typedef struct borrowedMovie {
 class Customer {
 public:
   static const bool PRINT_ID = true;
-
+  ~Customer(); 
   // These variables never change after initialization.
   const int UID;
   const std::string firstName;
