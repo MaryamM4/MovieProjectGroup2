@@ -12,12 +12,11 @@ class ClassicMovie : public Movie {
 public:
   const std::string majorActor;
   const int month;
-  const int year;
 
   ClassicMovie(int stock, const std::string &director, const std::string &title,
                int month, int year, const std::string &majorActor)
-      : Movie(director, title, stock), majorActor(majorActor), month(month),
-        year(year) {}
+      : Movie(director, title, year, stock), majorActor(majorActor),
+        month(month) {}
 
   ~ClassicMovie() {}
 

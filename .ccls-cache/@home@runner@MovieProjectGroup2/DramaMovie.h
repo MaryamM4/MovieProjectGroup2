@@ -10,10 +10,9 @@
 
 class DramaMovie : public Movie {
 public:
-  const int year;
   DramaMovie(int stock, const std::string &director, const std::string &title,
              int year)
-      : Movie(director, title, stock), year(year) {}
+      : Movie(director, title, year, stock) {}
 
   ~DramaMovie(){};
 

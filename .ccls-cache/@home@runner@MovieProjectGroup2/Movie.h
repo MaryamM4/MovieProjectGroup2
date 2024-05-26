@@ -5,6 +5,7 @@
 #ifndef MOVIE_H
 #define MOVIE_H
 
+#include <iostream>
 #include <string>
 #include <typeinfo>
 #include <vector>
@@ -13,9 +14,11 @@ class Movie {
 public:
   const std::string director;
   const std::string title;
+  const int year;
 
-  Movie(const std::string &director, const std::string &title, int stock)
-      : director(director), title(title), availableStock(stock) {}
+  Movie(const std::string &director, const std::string &title, int year,
+        int stock)
+      : director(director), title(title), year(year), availableStock(stock) {}
 
   virtual ~Movie(){};
 
@@ -36,29 +39,16 @@ public:
   static std::vector<Movie *> build(const std::string &movieFilename);
   static Movie *createMovie(const std::string &fileline);
 
-  static bool equal(Movie *lMovie, Movie* rMovie);
+  static bool equal(Movie *lMovie, Movie *rMovie);
 
 protected:
   int availableStock;
 };
 
-struct CompareMoviePtrs {
-  bool operator()(const Movie *lhs, const Movie *rhs) const {
-    // First compare by genre
-    int genreComparison = lhs->getGenrePriority(rhs->getGenreTag()) -
-                          lhs->getGenrePriority(lhs->getGenreTag());
+#include "ClassicMovie.h"
+#include "ComedyMovie.h"
+#include "DramaMovie.h"
 
-    if (genreComparison > 0) {
-      return true;
-    } else if (genreComparison < 0) {
-      return false;
-    }
-
-    // If same class type, compare by attributes
-    lhs = dynamic_cast<decltype(lhs)>(lhs);
-    rhs = dynamic_cast<decltype(lhs)>(rhs);
-    return (lhs < rhs);
-  }
-};
+// class ComedyMovie;
 
 #endif // MOVIE_H

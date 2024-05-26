@@ -3,13 +3,43 @@
 // Dhayanidhi
 
 #include "Movie.h"
-#include "ClassicMovie.h"
-#include "ComedyMovie.h"
-#include "DramaMovie.h"
+
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+
+struct CompareMoviePtrs {
+  bool operator()(Movie *lhs, Movie *rhs) const {
+    // First compare by genre
+    int genreComparison = lhs->getGenrePriority(rhs->getGenreTag()) -
+                          lhs->getGenrePriority(lhs->getGenreTag());
+
+    if (genreComparison < 0) {
+      return true;
+    } else if (genreComparison > 0) {
+
+      return false;
+    }
+
+    if (lhs->getGenreTag() == 'F') {
+      ComedyMovie *left = dynamic_cast<ComedyMovie *>(lhs);
+      ComedyMovie *right = dynamic_cast<ComedyMovie *>(rhs);
+      return (*left < *right);
+
+    } else if (lhs->getGenreTag() == 'D') {
+
+      DramaMovie *left = dynamic_cast<DramaMovie *>(lhs);
+      DramaMovie *right = dynamic_cast<DramaMovie *>(rhs);
+      return (*left < *right);
+
+    } else {
+      ClassicMovie *left = dynamic_cast<ClassicMovie *>(lhs);
+      ClassicMovie *right = dynamic_cast<ClassicMovie *>(rhs);
+      return (*left < *right);
+    }
+  }
+};
 
 // method: build movie list from a file
 std::vector<Movie *> Movie::build(const std::string &movieFilename) {
@@ -30,31 +60,8 @@ std::vector<Movie *> Movie::build(const std::string &movieFilename) {
   }
   file.close();
 
-  // sort the movie vector as specified in directions
-  std::sort(movies.begin(), movies.end(), [](Movie *current, Movie *other) {
-    char currentGenre = current->getGenreTag();
-    char otherGenre = other->getGenreTag();
-
-    // genre
-    if (currentGenre != otherGenre) {
-      return currentGenre < otherGenre;
-    }
-    // comedy
-    if (currentGenre == 'F') {
-      return dynamic_cast<ComedyMovie *>(current) <
-             dynamic_cast<ComedyMovie *>(other);
-      // drama
-    } else if (currentGenre == 'D') {
-      return dynamic_cast<DramaMovie *>(current) <
-             dynamic_cast<DramaMovie *>(other);
-      // classic
-    } else if (currentGenre == 'C') {
-      return dynamic_cast<ClassicMovie *>(current) <
-             dynamic_cast<ClassicMovie *>(other);
-    }
-    // alternative
-    return false;
-  });
+  CompareMoviePtrs cmp;
+  std::sort(movies.begin(), movies.end(), cmp);
 
   return movies;
 }
@@ -97,11 +104,16 @@ Movie *Movie::createMovie(const std::string &fileLine) {
       ss.ignore(1, ',');
       std::getline(ss, director, ',');
       std::getline(ss, title, ',');
-      std::string actor;
-      int month;
 
-      if (ss >> actor >> month >> year) {
-        return new ClassicMovie(stock, director, title, month, year, actor);
+      std::string actorF;
+      std::string actorL;
+      int month;
+      if (ss >> actorF >> actorL >> month >> year) {
+        ClassicMovie *pClassic;
+        pClassic = new ClassicMovie(stock, director, title, month, year,
+                                    (actorF + " " + actorL));
+
+        return pClassic;
       }
     }
 
@@ -155,14 +167,13 @@ std::string Movie::str() const {
   std::string genre(1, getGenreTag());
   std::string fullStr =
       genre + ", " + title + ", " + director +
+      ", year: " + std::to_string(year) +
       ".\nAvailable stock: " + std::to_string(availableStock) + ".";
 
   return fullStr;
 }
 
 bool Movie::equal(Movie *lMovie, Movie *rMovie) {
-  // return (lMovie->str() == rMovie->str());
-
   CompareMoviePtrs cmp;
 
   if (cmp(lMovie, rMovie) || cmp(rMovie, lMovie)) {
