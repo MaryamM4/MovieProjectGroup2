@@ -10,6 +10,17 @@ using namespace std;
 // Constructor: Initialize vector with null pointers
 HashTable::HashTable() : customerList(TABLE_SIZE, nullptr) {}
 
+// Destructor: Free all nodes
+HashTable::~HashTable() {
+  for (auto &head : customerList) {
+    while (head) {
+      node *temp = head;
+      head = head->next;
+      delete temp;
+    }
+  }
+}
+
 // Initialize based off of file. Returns false if file invalid.
 bool HashTable::build(const std::string &custFilename) {
   std::fstream infile;
@@ -38,17 +49,6 @@ bool HashTable::build(const std::string &custFilename) {
   }
 
   return true;
-}
-
-// Destructor: Free all nodes
-HashTable::~HashTable() {
-  for (auto &head : customerList) {
-    while (head) {
-      node *temp = head;
-      head = head->next;
-      delete temp;
-    }
-  }
 }
 
 // Print all customers in the hash table
