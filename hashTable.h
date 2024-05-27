@@ -1,7 +1,7 @@
 #ifndef HashTable_H
 #define HashTable_H
 
-#include "Customer.h"
+#include "customer.h"
 
 #include <fstream>
 #include <iostream>

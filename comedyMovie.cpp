@@ -2,7 +2,7 @@
 // Group 2: Jasleen Kaur Saini, Zaina Shaikh, Maryam Maabreh, Vinisha Bala
 // Dhayanidhi
 
-#include "ComedyMovie.h"
+#include "comedyMovie.h"
 
 // get genre tag of the movie
 char ComedyMovie::getGenreTag() const { return 'F'; }

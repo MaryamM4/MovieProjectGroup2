@@ -2,7 +2,7 @@
 // Group 2: Jasleen Kaur Saini, Zaina Shaikh, Maryam Maabreh, Vinisha Bala
 // Dhayanidhi
 
-#include "ClassicMovie.h"
+#include "classicMovie.h"
 
 // Get char representing the genre type of the movie
 char ClassicMovie::getGenreTag() const { return 'C'; }

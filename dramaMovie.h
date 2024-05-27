@@ -5,7 +5,7 @@
 #ifndef DRAMAMOVIE_H
 #define DRAMAMOVIE_H
 
-#include "Movie.h"
+#include "movie.h"
 #include <string>
 
 class DramaMovie : public Movie {
@@ -16,10 +16,12 @@ public:
 
   ~DramaMovie(){};
 
+  // Overridden operators.
   bool operator<(const DramaMovie &other) const;
   bool operator>(const DramaMovie &other) const;
   bool operator==(const DramaMovie &other) const;
 
+  // Returns char representing movie genre.
   char getGenreTag() const override;
 };
 

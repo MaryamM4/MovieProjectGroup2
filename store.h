@@ -1,14 +1,14 @@
 #ifndef STORE_H
 #define STORE_H
 
-#include "HashTable.h"
-#include "Movie.h"
+#include "hashTable.h"
+#include "movie.h"
 
 #include <fstream>
 
 class Store {
 public:
-  ~Store(); 
+  ~Store();
   bool buildFromFiles(const std::string &customerFilename,
                       const std::string &movieFilename,
                       const std::string &commandsFilename);
@@ -35,4 +35,4 @@ private:
   Movie *returnEquivelent(std::string movieInfo);
 };
 
-#endif 
+#endif

@@ -2,12 +2,13 @@
 // Group 2: Jasleen Kaur Saini, Zaina Shaikh, Maryam Maabreh, Vinisha Bala
 // Dhayanidhi
 
-#include "DramaMovie.h"
+#include "dramaMovie.h"
 
 // get genre type of the movie
 char DramaMovie::getGenreTag() const { return 'D'; }
 
-// comparison operators
+// comparison operators:
+
 bool DramaMovie::operator<(const DramaMovie &other) const {
   // First compare by genre.
   int genreComparison =

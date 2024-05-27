@@ -1,5 +1,5 @@
-#include "HashTable.h"
-#include "Customer.h"
+#include "hashTable.h"
+#include "customer.h"
 
 #include <iostream>
 #include <sstream>

@@ -25,10 +25,11 @@ public:
   int getStock() const;
   virtual char getGenreTag() const = 0; // Purely virtual. Parent has no genre.
 
+  // Operation commands.
   virtual bool borrowMovie(Movie *movie);
   virtual bool returnMovie(Movie *movie);
 
-  // Comedy > Drama > Classic
+  // Comedy > Drama > Classic > Invalid
   static int getGenrePriority(char genre);
 
   // Display methods
@@ -44,11 +45,5 @@ public:
 protected:
   int availableStock;
 };
-
-#include "ClassicMovie.h"
-#include "ComedyMovie.h"
-#include "DramaMovie.h"
-
-// class ComedyMovie;
 
 #endif // MOVIE_H

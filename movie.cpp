@@ -2,7 +2,11 @@
 // Group 2: Jasleen Kaur Saini, Zaina Shaikh, Maryam Maabreh, Vinisha Bala
 // Dhayanidhi
 
-#include "Movie.h"
+#include "movie.h"
+
+#include "classicMovie.h"
+#include "comedyMovie.h"
+#include "dramaMovie.h"
 
 #include <algorithm>
 #include <fstream>

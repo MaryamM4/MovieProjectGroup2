@@ -1,14 +1,14 @@
-#include "Store.h"
+#include "store.h"
 
-#include "ClassicMovie.h"
-#include "ComedyMovie.h"
-#include "DramaMovie.h"
+#include "classicMovie.h"
+#include "comedyMovie.h"
+#include "dramaMovie.h"
 
 Store::~Store() {
-    for (Movie *movie : movies) {
-        delete movie;  
-    }
-    movies.clear();   
+  for (Movie *movie : movies) {
+    delete movie;
+  }
+  movies.clear();
 }
 
 bool Store::buildFromFiles(const std::string &customerFilename,

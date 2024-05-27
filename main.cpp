@@ -2,7 +2,7 @@
  * Driver for starting movie store tests
  */
 
-#include "Store.h"
+#include "store.h"
 
 #include <iostream>
 // forward declaration, implementation in store_test.cpp

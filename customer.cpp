@@ -1,18 +1,19 @@
-#include "Customer.h"
+#include "customer.h"
 
 #include <iostream>
 #include <set>
 #include <sstream>
 #include <vector>
 
+// Deconstructor. Clears history (borrowedMovie pointers).
 Customer::~Customer() {
-    for (borrowedMovie *CustMovie : history) {
-        delete CustMovie;
-    }
-    history.clear(); 
+  for (borrowedMovie *CustMovie : history) {
+    delete CustMovie;
+  }
+  history.clear();
 }
 
-
+// Returns true if the customer is borrowing the movie.
 bool Customer::isBorrowing(Movie *movie) {
   for (borrowedMovie *bMovie : history) {
     if (Movie::equal(movie, bMovie->movie)) {
@@ -22,6 +23,7 @@ bool Customer::isBorrowing(Movie *movie) {
   return false;
 }
 
+// Borrows the movie. Returns true if succesful.
 bool Customer::borrowMovie(Movie *movie) {
   // Don't create duplicate snapshots
   borrowedMovie *bMovie = getBorrow(movie);
@@ -43,6 +45,8 @@ bool Customer::borrowMovie(Movie *movie) {
   return true;
 }
 
+// Borrows movie. Returns false if unsuccesful or already returned, true
+// otherwise.
 bool Customer::returnMovie(Movie *movie) {
   borrowedMovie *bMovie = getBorrow(movie);
 
